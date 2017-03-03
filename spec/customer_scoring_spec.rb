@@ -22,7 +22,7 @@ context Scorekeeper::CustomerScoring do
     end
   end
 
-  describe "A CustomerScoring Object has valid inputs" do
+  describe "CustomerScoring object makes API calls" do
     
   end
 

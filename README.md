@@ -1,5 +1,5 @@
 # Scorekeeper
-
+[![Build Status](https://travis-ci.org/gardoroman/scorekeeper.svg?branch=master)](https://travis-ci.org/gardoroman/scorekeeper)
 This is gem is a library built for an anonymous company called the Jumping Amphibian.
 The library integrates an API which scores a consumer based on the consumer's
 income, zipcode, and age.

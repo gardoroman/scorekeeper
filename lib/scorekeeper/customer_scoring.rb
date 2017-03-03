@@ -2,6 +2,8 @@ module Scorekeeper
 
   class CustomerScoring
 
+    NUM_PATTERN = /\D/
+
     attr_reader :income, :zipcode, :age
 
     # initialize object with args containing income, zipcode, and age
@@ -23,24 +25,25 @@ module Scorekeeper
     # ensures that valid values are passed
     def check_values
       check_numericity
-      # check_zip_code
+      check_zip_code
     end
 
     #ensures that income and age are numeric passes pattern that checks to see if there is a non-digit or negative number. If so the pattern match will not be nil and an error will be raised
     def check_numericity
-      numeric_pattern = /\D/
-      check_patterns(@income.to_s, numeric_pattern)
-      check_patterns(@age.to_s, numeric_pattern)
+      check_patterns(@income.to_s)
+      check_patterns(@age.to_s)
     end
 
-    # ensures that zip code values are either XXXXX pattern or the XXXXX-XXXX long pattern.
+    # ensures that zip code is all digits and that length is equal to 5
     def check_zip_code
-      pattern = /(\d{5}-?\d{4}|\d{5})/
-      raise InvalidParameterException if (@zipcode.to_s =~ pattern)
+      zip_string = @zipcode.to_s
+      raise InvalidParameterException if zip_string.size != 5
+      # raise InvalidParameterException if (@zipcode.to_s =~ pattern)
+      check_patterns(zip_string)
     end
 
-    def check_patterns(number, pattern)
-      raise InvalidParameterException unless (number =~ pattern).nil?
+    def check_patterns(number)
+      raise InvalidParameterException unless (number =~ NUM_PATTERN).nil?
     end
 
 
