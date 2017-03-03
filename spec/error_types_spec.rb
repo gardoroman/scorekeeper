@@ -46,14 +46,31 @@ context "Raise Errors for inputs" do
     end
   end
 
-  # describe "InvalidParameterException for invalid zip codes" do
-  #   let(:non_digit_zip){Scorekeeper::CustomerScoring.new( {'income': 50000, 'zipcode': '6*zy1', 'age': 35} ) }
-  #   let(:long_zip){Scorekeeper::CustomerScoring.new( {'income': 50000, 'zipcode': 602016, 'age': 35} ) }
-  #   let(:short_zip){Scorekeeper::CustomerScoring.new( {'income': 50000, 'zipcode': 2, 'age': 35} ) }
-  #
-  #   it "should raise an error if zip code contains non-digits" do
-  #     expect {non_digit_zip}.to raise_error(Scorekeeper::InvalidParameterException)
-  #   end
-  # end
+  describe "InvalidParameterException for invalid zip codes" do
+    let(:non_digit_zip){Scorekeeper::CustomerScoring.new( {'income': 50000, 'zipcode': '6*zy1', 'age': 35} ) }
+    let(:long_zip){Scorekeeper::CustomerScoring.new( {'income': 50000, 'zipcode': 602016, 'age': 35} ) }
+    let(:short_zip){Scorekeeper::CustomerScoring.new( {'income': 50000, 'zipcode': 2, 'age': 35} ) }
+
+    it "should raise an error if zip code contains non-digits" do
+      expect {non_digit_zip}.to raise_error(Scorekeeper::InvalidParameterException)
+    end
+    it "should raise an error if zip greater than 5 digits" do
+      expect {long_zip}.to raise_error(Scorekeeper::InvalidParameterException)
+    end
+    it "should raise an error if zip less than 5 digits" do
+      expect {short_zip}.to raise_error(Scorekeeper::InvalidParameterException)
+    end
+  end
+
+  describe "RequestException" do
+    let(:score){Scorekeeper::CustomerScoring.new( {'income': 50000, 'zipcode': 60201, 'age': 35} ) }
+    let(:raised_error){Scorekeeper::RequestException.new}
+
+    it "should raise an error if request fails" do
+      allow(score).to receive(:search).and_raise(raised_error)
+      expect(raised_error).to be_a(Scorekeeper::RequestException)
+    end
+
+  end
 
 end

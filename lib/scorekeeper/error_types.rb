@@ -4,4 +4,6 @@ module Scorekeeper
 
   class InvalidParameterException < StandardError; end
 
+  class RequestException < StandardError; end
+
 end
