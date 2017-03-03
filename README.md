@@ -22,6 +22,13 @@ Or install it yourself as:
 
 ## Usage
 
+The CustomerScoring object must be initialized with a hash containing income, zipcode, and age parameters.
+
+    customer_score = Scorekeeper::CustomerScoring.new( {'income': 50000, 'zipcode': 60201, 'age': 35} )
+
+
+*Note: The inputs must be numeric and cannot be negative.*
+
 *Dependencies*
 
 * Tested with Ruby 2.3.1 (has not been tested with other versions)
