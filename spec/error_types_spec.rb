@@ -60,6 +60,16 @@ context "Raise Errors for inputs" do
     it "should raise an error if zip less than 5 digits" do
       expect {short_zip}.to raise_error(Scorekeeper::InvalidParameterException)
     end
+  end
+
+  describe "RequestException" do
+    let(:score){Scorekeeper::CustomerScoring.new( {'income': 50000, 'zipcode': 60201, 'age': 35} ) }
+    let(:raised_error){Scorekeeper::RequestException.new}
+
+    it "should raise an error if request fails" do
+      allow(score).to receive(:search).and_raise(raised_error)
+      expect(raised_error).to be_a(Scorekeeper::RequestException)
+    end
 
   end
 

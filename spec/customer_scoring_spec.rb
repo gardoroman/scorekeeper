@@ -23,7 +23,27 @@ context Scorekeeper::CustomerScoring do
   end
 
   describe "CustomerScoring object makes API calls" do
-    
+    let(:real_score){Scorekeeper::CustomerScoring.new( {'income': 50000, 'zipcode': 60201, 'age': 35} ) }
+    let(:no_score){Scorekeeper::CustomerScoring.new( {'income': 50000, 'zipcode': 00000, 'age': 35} ) }
+
+    it "makes call to API and gets a response" do
+      file = File.open(File.dirname(__FILE__) + '/fixtures/' + 'score.json', 'rb').read
+      response = JSON.parse(file)
+      allow(real_score).to receive(:search).and_return(response)
+
+      expect(response).to be_a(Hash)
+      expect(response['propensity']).to eq(0.26532)
+      expect(response['ranking']).to eq("C")
+    end
+
+    it "makes call to API and gets an empty response" do
+      response = JSON.parse('{}')
+      allow(real_score).to receive(:search).and_return(response)
+
+      expect(response).to be_a(Hash)
+      expect(response.empty?).to be(true)
+    end
+
   end
 
 end
